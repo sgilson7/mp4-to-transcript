@@ -49,6 +49,8 @@ MP4 to Transcript turns a recording (MP4, MOV, M4A, MP3, WAV, WebM) into a trans
 
 `./scripts/check.sh` on 2026-10-14: `BROWSER CHECK PASSED in chromium, firefox, webkit`, `BUILDER CHECK PASSED`. `./scripts/count-tests.sh`: 91 passed, 0 failed, 0 ignored.
 
+Live check, 2026-10-14, from `6904409`: `BUILDER_ORIGIN=https://sgilson7.github.io/mp4-to-transcript` browser check passed in chromium, firefox, webkit.
+
 ## The next action
 
 The person makes a transcript of a recording they know and compares it with what was said (R1.14), then answers the two open questions in `PLAN.md`.

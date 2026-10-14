@@ -25,6 +25,7 @@ One row per assumption, surprise or open item. **Kind** is *divergence* (what wa
 | R1.17 | finding | Lines over silence are dropped, and the speech model is not run on stretches where no voice is heard, because Whisper writes words such as "Thank you." into silence. Speech the segmentation model misses is therefore never transcribed. *done* |
 | R1.18 | finding | `page.rs` strings, `models.json` and `page.json` are read as data; `copy.rs` reads every string in them against `TONE.md` and the glossary's `Not:` lines. Model names and settings in `models.json` are not reader-visible but are scanned too; none trips a rule. *done* |
 | R1.19 | finding | GitHub's push protection refused the first push: it read the minified `transformers.min.js` as holding a Mistral API key. The match is model class names (`MistralForCausalLM` and others) beside a 32-character identifier in the npm release, not a key. Rather than override the scanner, the unminified `dist/transformers.js` from the same package and version is vendored instead (1.3 MB instead of 0.6 MB; easier to audit). `SHA256SUMS` and `LICENSES.md` updated. *done* |
+| R1.20 | finding | The person allowed the push-protection false positive (R1.19) on 2026-10-14. Published from `6904409` (build `01ccb73a5e6c`); the browser check against https://sgilson7.github.io/mp4-to-transcript passed in Chromium, Firefox and WebKit, each making the test meeting's transcript (3 speakers, 9 lines) with no off-origin request. *done* |
 
 ## Strings written by the agent
 
