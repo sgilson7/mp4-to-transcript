@@ -1,0 +1,56 @@
+[
+  {
+    "voice": "Samantha",
+    "start_ms": 700,
+    "end_ms": 5312,
+    "text": "Good morning, everyone. Thanks for joining the planning meeting for the spring course."
+  },
+  {
+    "voice": "Daniel",
+    "start_ms": 6012,
+    "end_ms": 12145,
+    "text": "Morning. I had a look at the syllabus draft last night, and I think the first two weeks are too crowded."
+  },
+  {
+    "voice": "Samantha",
+    "start_ms": 12845,
+    "end_ms": 14507,
+    "text": "That's fair. What would you move?"
+  },
+  {
+    "voice": "Daniel",
+    "start_ms": 15207,
+    "end_ms": 20657,
+    "text": "I would push the probability unit back by a week, so students have time with proofs first."
+  },
+  {
+    "voice": "Tara",
+    "start_ms": 21357,
+    "end_ms": 27212,
+    "text": "I agree with that. The lab sections also need an extra session on recursion before the first exam."
+  },
+  {
+    "voice": "Samantha",
+    "start_ms": 27912,
+    "end_ms": 33489,
+    "text": "Okay. Tara, can you draft the lab schedule, and Daniel, can you revise the reading list?"
+  },
+  {
+    "voice": "Tara",
+    "start_ms": 34189,
+    "end_ms": 36698,
+    "text": "Yes, I can have the schedule ready by Friday."
+  },
+  {
+    "voice": "Daniel",
+    "start_ms": 37398,
+    "end_ms": 39607,
+    "text": "And I will send the reading list on Monday."
+  },
+  {
+    "voice": "Samantha",
+    "start_ms": 40307,
+    "end_ms": 43220,
+    "text": "Great. Let's meet again next week to review both."
+  }
+]

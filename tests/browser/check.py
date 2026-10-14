@@ -9,7 +9,8 @@ own interactions from tests/browser/interactions.py. The run fails on:
 - a console error;
 - any request to another origin, during load, idle or the interactions;
 - a Content-Security-Policy violation (a blocked attempt is still an attempt);
-- a WebSocket, a popup, a worker or a service worker opened by the page;
+- a WebSocket, a popup, a service worker, or any worker other than the page's
+  own worker.js, which runs the speech models (SECOND-ORDER.md R1.4);
 - a failed check inside the interactions.
 
 What a pass establishes is what happened on that path, in those engines, on
@@ -34,6 +35,7 @@ import os
 import pathlib
 import sys
 import threading
+from urllib.parse import urljoin
 
 from playwright.sync_api import sync_playwright
 
@@ -133,7 +135,9 @@ def run_engine(p, engine, base, interactions):
     check(not seen["foreign"], f"no off-origin request at any point {seen['foreign']}")
     check(not seen["sockets"], f"no WebSocket {seen['sockets']}")
     check(not seen["popups"], f"no popup {seen['popups']}")
-    check(not seen["workers"] and sw == 0, f"no worker or service worker {seen['workers']} sw={sw}")
+    # Firefox reports a worker's address as written, relative to the page.
+    others = [w for w in seen["workers"] if urljoin(base + "/", w).split("?")[0] != base + "/worker.js"]
+    check(not others and sw == 0, f"no worker but worker.js, and no service worker {others} sw={sw}")
     browser.close()
 
 

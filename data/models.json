@@ -1,0 +1,20 @@
+{
+  "_note": "Settings the worker passes to transformers.js unchanged. env keeps every model file on this origin (vendor/models/) and off the browser's storage. wasm: where the ONNX runtime's WebAssembly lives. threads: 1, because GitHub Pages cannot send the headers that shared memory needs. asr: Whisper base.en, 8-bit; call asks for each line's start and end. segment: pyannote segmentation 3.0. embed: WeSpeaker ResNet34, whose voiceprint is the output named here.",
+  "env": {
+    "allowRemoteModels": false,
+    "allowLocalModels": true,
+    "localModelPath": "vendor/models/",
+    "useBrowserCache": false,
+    "useWasmCache": false
+  },
+  "wasm": "vendor/ort/",
+  "threads": 1,
+  "device": "wasm",
+  "asr": {
+    "model": "whisper-base.en",
+    "dtype": { "encoder_model": "q8", "decoder_model_merged": "q8" },
+    "call": { "return_timestamps": true }
+  },
+  "segment": { "model": "pyannote-segmentation-3.0", "dtype": "fp32" },
+  "embed": { "model": "wespeaker-voxceleb-resnet34-LM", "dtype": "fp32", "output": "last_hidden_state" }
+}

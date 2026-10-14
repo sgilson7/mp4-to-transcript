@@ -1,16 +1,205 @@
 [
-  {
-    "name": "an empty title is refused",
-    "file": "crates/core/src/page.rs",
-    "find": "if strings.title.trim().is_empty() {",
-    "replace": "if false {",
-    "test": "an_empty_title_is_rejected_by_name"
-  },
-  {
-    "name": "an unknown action is refused",
-    "file": "crates/core/src/api.rs",
-    "find": "other => return Err(format!(\"Unknown action \\\"{other}\\\".\")),",
-    "replace": "_ => {}",
-    "test": "act_refuses_an_unknown_action"
-  }
+ {
+  "name": "negative scores sort below positive ones",
+  "file": "crates/core/src/bits.rs",
+  "find": "    if bits & 0x8000_0000 != 0 {\n        !bits",
+  "replace": "    if bits & 0x8000_0000 != 0 {\n        bits",
+  "test": "order_keys_sort_like_the_numbers"
+ },
+ {
+  "name": "fixed point keeps the sign",
+  "file": "crates/core/src/bits.rs",
+  "find": "    if negative {\n        -magnitude",
+  "replace": "    if negative {\n        magnitude",
+  "test": "fixed_point_values_are_exact_for_simple_numbers"
+ },
+ {
+  "name": "a short tail joins the last window",
+  "file": "crates/core/src/diarize.rs",
+  "find": "Some(last) if end - start < SHORT_TAIL => last.1 = end,",
+  "replace": "Some(last) if false => last.1 = end,",
+  "test": "windows_are_ten_seconds_and_a_short_tail_joins_the_last"
+ },
+ {
+  "name": "scores compare as numbers, not raw bits",
+  "file": "crates/core/src/diarize.rs",
+  "find": "if bits::order_key(row[k]) > bits::order_key(row[best]) {",
+  "replace": "if row[k] > row[best] {",
+  "test": "a_negative_score_loses_to_a_smaller_negative_one"
+ },
+ {
+  "name": "a run under a second gets no voiceprint",
+  "file": "crates/core/src/diarize.rs",
+  "find": "        if end - start >= MIN_EMBED {",
+  "replace": "        if true {",
+  "test": "every_solo_run_of_a_second_or_more_is_a_stretch"
+ },
+ {
+  "name": "only solo runs get voiceprints",
+  "file": "crates/core/src/diarize.rs",
+  "find": "        if mask.count_ones() != 1 {",
+  "replace": "        if mask == 0 {",
+  "test": "every_solo_run_of_a_second_or_more_is_a_stretch"
+ },
+ {
+  "name": "groups stop merging below the threshold",
+  "file": "crates/core/src/diarize.rs",
+  "find": "if target.is_none() && s < SAME_SPEAKER {",
+  "replace": "if target.is_none() && s < 0 {",
+  "test": "close_voiceprints_group_and_distant_ones_do_not"
+ },
+ {
+  "name": "groups link by their average",
+  "file": "crates/core/src/diarize.rs",
+  "find": "let merged = (size[i] * sim[i][k] + size[j] * sim[j][k]) / (size[i] + size[j]);",
+  "replace": "let merged = sim[i][k].max(sim[j][k]);",
+  "test": "average_linkage_uses_the_mean_not_the_closest_member"
+ },
+ {
+  "name": "short runs cannot make a group",
+  "file": "crates/core/src/diarize.rs",
+  "find": "(0..prints.len()).filter(|k| lengths[*k] >= ANCHOR).collect();",
+  "replace": "(0..prints.len()).collect();",
+  "test": "short_runs_join_the_group_they_are_most_like_without_making_one"
+ },
+ {
+  "name": "a cut-off last line is left for the next block",
+  "file": "crates/core/src/transcribe.rs",
+  "find": "if end < total && last_is_cut && lines.len() > 1 {",
+  "replace": "if false {",
+  "test": "a_line_cut_off_by_the_block_end_is_left_for_the_next_block"
+ },
+ {
+  "name": "a block starts just before speech",
+  "file": "crates/core/src/transcribe.rs",
+  "find": "let start = seek.max(heard.0.saturating_sub(LEAD));",
+  "replace": "let start = seek;",
+  "test": "the_next_block_starts_half_a_second_before_speech"
+ },
+ {
+  "name": "sound tags are dropped",
+  "file": "crates/core/src/transcribe.rs",
+  "find": "if tag && !inner.contains(",
+  "replace": "if false && !inner.contains(",
+  "test": "empty_lines_and_sound_tags_are_dropped"
+ },
+ {
+  "name": "milliseconds round half up",
+  "file": "crates/core/src/transcribe.rs",
+  "find": "(value + scale / 2) / scale",
+  "replace": "value / scale",
+  "test": "decimal_seconds_become_milliseconds"
+ },
+ {
+  "name": "a line over silence is dropped",
+  "file": "crates/core/src/transcript.rs",
+  "find": "if !heard(line.start, line.end, speech) {",
+  "replace": "if false {",
+  "test": "a_line_over_silence_is_dropped"
+ },
+ {
+  "name": "a finished sentence is not joined to the next",
+  "file": "crates/core/src/transcript.rs",
+  "find": "&& !ends_sentence(&last.text)",
+  "replace": "",
+  "test": "a_sentence_split_by_the_model_is_joined"
+ },
+ {
+  "name": "speakers are numbered by first speech",
+  "file": "crates/core/src/transcript.rs",
+  "find": "    for c in &mut cues {",
+  "replace": "    for c in cues.iter_mut().take(0) {",
+  "test": "each_line_goes_to_the_speaker_heard_most_and_numbers_follow_first_speech"
+ },
+ {
+  "name": "VTT lines read Speaker n: text",
+  "file": "crates/core/src/transcript.rs",
+  "find": "\"\\n{}\\n{} --> {}\\n{}: {}\\n\"",
+  "replace": "\"\\n{}\\n{} --> {}\\n{} {}\\n\"",
+  "test": "the_vtt_matches_zooms_layout"
+ },
+ {
+  "name": "a known speaker count is used",
+  "file": "crates/core/src/api.rs",
+  "find": "let labels = diarize::cluster(&run.prints, &lengths, target);",
+  "replace": "let labels = diarize::cluster(&run.prints, &lengths, None);",
+  "test": "a_known_speaker_count_overrides_the_threshold"
+ },
+ {
+  "name": "an unknown action is refused",
+  "file": "crates/core/src/api.rs",
+  "find": "other => return Err(format!(\"Unknown action \\\"{other}\\\".\")),",
+  "replace": "_ => {}",
+  "test": "an_unknown_action_is_an_error"
+ },
+ {
+  "name": "the first job waits for models and sound",
+  "file": "crates/core/src/api.rs",
+  "find": "if !run.ready || run.samples.is_none() || run.started.is_some() {",
+  "replace": "if run.started.is_some() {",
+  "test": "the_first_job_waits_for_both_the_models_and_the_sound"
+ },
+ {
+  "name": "the time left scales the time so far",
+  "file": "crates/core/src/api.rs",
+  "find": "Some(elapsed * self.cost_left() / self.cost_done)",
+  "replace": "Some(elapsed)",
+  "test": "the_time_left_scales_the_time_so_far"
+ },
+ {
+  "name": "file names lose characters file systems refuse",
+  "file": "crates/core/src/api.rs",
+  "find": "!matches!(c, ':' | '*' | '?' | '\"' | '<' | '>' | '|')",
+  "replace": "true",
+  "test": "file_names_keep_the_recording_name"
+ },
+ {
+  "name": "an empty file is refused",
+  "file": "crates/core/src/api.rs",
+  "find": "Some(c) if c.size == 0 => {",
+  "replace": "Some(c) if false => {",
+  "test": "choosing_a_file_shows_its_name_and_size_and_enables_the_button"
+ },
+ {
+  "name": "a tiny group joins another speaker",
+  "file": "crates/core/src/diarize.rs",
+  "find": "size * 100 < total * SMALL_SHARE_PERCENT && size < SMALL_SAMPLES",
+  "replace": "false",
+  "test": "a_tiny_group_joins_the_speaker_it_is_most_like"
+ },
+ {
+  "name": "a group over thirty seconds is a speaker",
+  "file": "crates/core/src/diarize.rs",
+  "find": "size * 100 < total * SMALL_SHARE_PERCENT && size < SMALL_SAMPLES",
+  "replace": "size * 100 < total * SMALL_SHARE_PERCENT",
+  "test": "a_tiny_group_joins_the_speaker_it_is_most_like"
+ },
+ {
+  "name": "unnamed frames take the nearest stretch",
+  "file": "crates/core/src/diarize.rs",
+  "find": "own.iter().min_by_key(|k| distance(k))",
+  "replace": "own.first()",
+  "test": "an_overlap_between_two_stretches_of_one_voice_goes_to_the_nearer"
+ },
+ {
+  "name": "a run that reaches no stretch counts for nobody",
+  "file": "crates/core/src/diarize.rs",
+  "find": "s.window == w && s.voice == voice && s.first >= first && s.after <= i",
+  "replace": "s.window == w && s.voice == voice",
+  "test": "turns_follow_each_stretch_and_fill_in_from_the_nearest"
+ },
+ {
+  "name": "a line that ends a sentence goes with its start",
+  "file": "crates/core/src/transcript.rs",
+  "find": "(None, Some(last)) if continues(last) => last.speaker,",
+  "replace": "(None, Some(last)) if false && continues(last) => last.speaker,",
+  "test": "a_line_with_no_named_speaker_that_ends_a_sentence_goes_with_its_start"
+ },
+ {
+  "name": "a speaker must be heard under a fifth of a line",
+  "file": "crates/core/src/transcript.rs",
+  "find": "best.filter(|b| heard[*b] * HEARD_SHARE_DIVISOR >= end - start)",
+  "replace": "best",
+  "test": "a_line_with_no_named_speaker_that_ends_a_sentence_goes_with_its_start"
+ }
 ]

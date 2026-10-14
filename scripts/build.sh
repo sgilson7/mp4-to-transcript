@@ -42,17 +42,25 @@ cp -R web/. dist/
 cp -R data/. dist/data/
 cp GLOSSARY.md dist/data/glossary.md
 
+# The size of each model file, for the loading meter. Computed from the
+# files, never typed (SECOND-ORDER.md R1.8).
+(cd web/vendor/models && find . -type f -name '*.*' ! -name SHA256SUMS ! -name LICENSE ! -name README.md \
+  | LC_ALL=C sort | while read -r f; do printf '%s\t%s\n' "${f#./}" "$(wc -c < "$f" | tr -d ' ')"; done) \
+  | python3 -c 'import json,sys; print(json.dumps({k: int(v) for k, v in (l.rstrip("\n").split("\t") for l in sys.stdin)}, indent=1))' \
+  > dist/data/model-files.json
+
 # Cache busting. The hash covers every file, so any change gives new URLs.
 BUILD=$(find dist -type f | LC_ALL=C sort | xargs cat | sha256 | cut -c1-12)
 find dist -name '*.js' -not -path '*/vendor/*' -print0 | xargs -0 perl -0777 -pi -e "
   s{((?:from|import\\()\\s*\")(\\.{1,2}/[^\"?:]+\\.js)\"}{\$1\$2?v=$BUILD\"}g;
   s{(fetch\\(\")([^\"?:]+)\"}{\$1\$2?v=$BUILD\"}g;
   s{new URL\\('([A-Za-z0-9_]+_bg\\.wasm)', import\\.meta\\.url\\)}{new URL('\$1?v=$BUILD', import.meta.url)}g;
+  s{(new Worker\\(\")([^\"?:]+\\.js)\"}{\$1\$2?v=$BUILD\"}g;
 "
 find dist -name '*.html' -print0 | xargs -0 perl -0777 -pi -e "
   s{((?:src|href)=\")([^\"?:#]+\\.(?:js|css))\"}{\$1\$2?v=$BUILD\"}g;
 "
-if grep -rnE --include='*.js' --exclude-dir=vendor '(from|import\()\s*"\.{1,2}/[^"?]+\.js"|fetch\("[^"?:]+"\)' dist \
+if grep -rnE --include='*.js' --exclude-dir=vendor '(from|import\()\s*"\.{1,2}/[^"?]+\.js"|fetch\("[^"?:]+"\)|new Worker\("[^"?]+"' dist \
    || grep -rnE --include='*.html' '(src|href)="[^"?:#]+\.(js|css)"' dist; then
   echo "the URL above is unstamped and would be served stale after a deploy" >&2
   exit 1

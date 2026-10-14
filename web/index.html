@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Reference default. connect-src 'self' keeps fetches on this origin;
-       'wasm-unsafe-eval' lets the page compile its own WebAssembly module;
+       'wasm-unsafe-eval' lets the page and its worker compile WebAssembly;
+       worker-src 'self' allows the one worker that runs the speech models;
        form-action 'none' blocks form posts. A meta policy cannot stop data
        leaving by navigation, so the browser check still watches requests. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <title>Builder tool</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>MP4 to Transcript</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-ready="false">
   <main>
     <h1 id="title"></h1>
+    <p id="message" role="status" aria-live="polite"></p>
     <div id="panels"></div>
-    <p id="message" role="status"></p>
   </main>
   <noscript><p>This page needs JavaScript and WebAssembly.</p></noscript>
   <script type="module" src="app.js"></script>

@@ -62,4 +62,7 @@ These stay with the person and go in `BRIEF.md` or `PLAN.md`:
 
 | Default | Changed to | Reason | Recorded in |
 | --- | --- | --- | --- |
-| | | | |
+| R4 template convention (state as JSON round trip) | the shim holds the core's `Handle`; the core keeps its state | a run holds thousands of model answers; the requirement (ordinary values in and out, one `act` door) still holds | `SECOND-ORDER.md` R1.3 |
+| R8 browser check: no worker | one same-origin module worker, `worker.js`, is allowed; any other worker or a service worker still fails the check; each page's CSP adds `worker-src 'self'` | the speech models take seconds per job and would freeze the page's own thread | `tests/browser/check.py`; `SECOND-ORDER.md` R1.4 |
+| D10 cache-busting stamps | also stamps `new Worker("...")` URLs, and fails on an unstamped one | the worker is a script the page loads by URL | `scripts/build.sh`; `SECOND-ORDER.md` R1.4 |
+| Vendored files | about 135 MB under `web/vendor/`: Transformers.js, ONNX Runtime Web and three models, one `SHA256SUMS` for all | the models must come from the page's own origin (R7) | `LICENSES.md`; `SECOND-ORDER.md` R1.1 |
