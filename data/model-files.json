@@ -1,0 +1,18 @@
+{
+ "pyannote-segmentation-3.0/config.json": 408,
+ "pyannote-segmentation-3.0/onnx/model.onnx": 5986908,
+ "pyannote-segmentation-3.0/preprocessor_config.json": 158,
+ "wespeaker-voxceleb-resnet34-LM/config.json": 38,
+ "wespeaker-voxceleb-resnet34-LM/onnx/model.onnx": 26535549,
+ "wespeaker-voxceleb-resnet34-LM/preprocessor_config.json": 371,
+ "whisper-base.en/added_tokens.json": 34604,
+ "whisper-base.en/config.json": 2197,
+ "whisper-base.en/generation_config.json": 1556,
+ "whisper-base.en/normalizer.json": 52666,
+ "whisper-base.en/onnx/decoder_model_merged_quantized.onnx": 53692803,
+ "whisper-base.en/onnx/encoder_model_quantized.onnx": 23201320,
+ "whisper-base.en/preprocessor_config.json": 339,
+ "whisper-base.en/special_tokens_map.json": 2173,
+ "whisper-base.en/tokenizer.json": 2405679,
+ "whisper-base.en/tokenizer_config.json": 282662
+}

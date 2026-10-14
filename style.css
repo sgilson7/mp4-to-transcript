@@ -1,0 +1,51 @@
+:root {
+  --ink: #1d232a;
+  --paper: #ffffff;
+  --muted: #5a646e;
+  --line: #c9cfd6;
+  --accent: #9b1c1c;
+  --press: #1d4f91;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #e8eaed; --paper: #15181c; --muted: #a9b1ba; --line: #3a424b; --accent: #f08c8c; --press: #8db4ee; }
+}
+* { box-sizing: border-box; }
+/* A display rule elsewhere must not show what the page hid. */
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 1rem/1.5 system-ui, sans-serif;
+}
+main { max-width: 44rem; margin: 0 auto; padding: 2rem 1rem; }
+h1 { font-size: 1.6rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.15rem; margin: 0 0 0.4rem; }
+section { margin: 0 0 1.4rem; }
+p { margin: 0 0 0.6rem; }
+#message:not(:empty) { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 0.6rem; }
+#go p, #speakers p, #done p + p { color: var(--muted); }
+.field { display: flex; flex-direction: column; align-items: flex-start; gap: 0.35rem; margin: 0 0 0.6rem; }
+.field input { font: inherit; max-width: 100%; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.4rem 0 0.6rem; }
+button {
+  font: inherit;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+}
+button:disabled { cursor: not-allowed; opacity: 0.55; }
+/* A pressed option is marked by a heavier border and a tick, not by colour alone. */
+button[aria-pressed="true"] { border: 2px solid var(--press); font-weight: 600; }
+button[aria-pressed="true"]::before { content: "\2713\00a0"; }
+button.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); font-weight: 600; }
+.meter { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0.6rem; margin: 0 0 0.8rem; }
+.meter progress { width: 100%; height: 1rem; }
+.cues { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+.cues li { padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+.cues p { margin: 0; }
+.cue-head time { color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 0.4rem; }
+[data-term] { text-decoration: underline dotted; cursor: help; }
